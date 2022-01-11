@@ -11,9 +11,20 @@ import {
 export function Home() {
     const [qtd, setQtd] = useState(0)
     const [price, setPrice] = useState(0)
-    const [result, setResult] = useState()
+    const [result, setResult] = useState('')
+    const [error, setError] = useState(false)
 
     function handleCalc() {
+        if (!qtd || !price) {
+            setError(!error)
+            setResult('Preencha todos os campos !')
+            return
+        }
+
+        if (error) {
+            setError(!error)
+        }
+
         setResult((price * 1000 / qtd).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))
     }
 
@@ -21,10 +32,10 @@ export function Home() {
         <>
             <View style={styles.container}>
                 <Text style={styles.title}>Calculadora de Preço</Text>
-                <Text style={styles.title}>Kg/Litro</Text>
+                <Text style={styles.title}>por Kg/Litro</Text>
 
 
-                <Text style={styles.inputTitle}>Ml / Peso (g)</Text>
+                <Text style={styles.inputTitle}>ML / Gramas</Text>
                 <TextInput
                     placeholder="Ex: 500"
                     placeholderTextColor="#7f7f7f"
@@ -42,10 +53,10 @@ export function Home() {
                     style={styles.input}
                 />
 
-                <Text style={styles.result}>{result}</Text>
+                <Text style={[styles.result, (error) ? styles.error : '']}>{result}</Text>
 
-                <TouchableOpacity onPress={handleCalc}>
-                    <Text style={styles.button}>Calcular</Text>
+                <TouchableOpacity onPress={handleCalc} style={styles.button}>
+                    <Text style={styles.buttonText}>Calcular</Text>
                 </TouchableOpacity>
             </View>
         </>
@@ -58,6 +69,9 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         alignItems: 'center',
         backgroundColor: '#151515'
+    },
+    error: {
+        color: '#DC143C'
     },
     title: {
         color: '#fff',
@@ -85,6 +99,12 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     button: {
+        overflow: 'hidden',
+        borderWidth: 1,
+        borderColor: '#404040',
+        borderRadius: 14
+    },
+    buttonText: {
         paddingVertical: 15,
         paddingHorizontal: 40,
         borderRadius: 5,
@@ -92,5 +112,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         backgroundColor: '#151515'
-    },
+    }
 })
