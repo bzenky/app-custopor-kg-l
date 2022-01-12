@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
-    Button,
     StyleSheet,
     Text,
     TextInput,
@@ -16,9 +15,11 @@ export function Home() {
 
     function handleCalc() {
         if (!qtd || !price) {
-            setError(!error)
+            setError(true)
             setResult('Preencha todos os campos !')
             return
+        } else {
+
         }
 
         if (error) {
